@@ -15,7 +15,40 @@ footer .container {
 
 header {
 	background: white;
+	overflow: hidden;
 }
+
+header h1 {
+	float: left;
+	width: 570px;
+}
+
+header nav {
+	float: right;
+	width: 285px;
+}
+
 main {
 	background: white;
+	overflow: hidden;
+}
+
+main .left {
+	float: left;
+	width: 570px;
+}
+
+main .right {
+	float: right;
+	width: 285px;
+}
+
+footer .left {
+	float: left;
+	width: 570px;
+}
+
+footer .sitemap {
+	float: right;
+	width: 285px;
 }
