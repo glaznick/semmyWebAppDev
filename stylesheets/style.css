@@ -1,6 +1,30 @@
 body {
 	background: #f9e933;
+	font-family: "Droid Sans", sans-serif;
+	font-size: 100%;
 }
+
+h1, h2, h3, h5 { 
+	font-family: "Ubuntu", sans-serif;
+}
+
+h1 {
+	font-size: 3em;
+	font-style: italic;
+	vertical-align: middle;
+}
+
+h2 {
+	font-size: 1.75em;
+	font-weight: bold;
+}
+
+h3 { 
+	font-size: 1.3em; 
+	font-weight: bold;
+}
+
+h5 { font-size: 1.3em; }
 
 header, main, footer {
 	min-width: 855px;
@@ -16,21 +40,35 @@ footer .container {
 header {
 	background: white;
 	overflow: hidden;
+	border-bottom: 2px solid grey;
 }
 
 header h1 {
 	float: left;
 	width: 570px;
+	padding-top: .5em;
+	padding-bottom: .5em;
 }
 
 header nav {
 	float: right;
 	width: 285px;
+	padding-top: 2.9em;
+	vertical-align: middle;
 }
+
+header nav a {
+	text-decoration: none;
+	color: black;
+}
+
+header nav a:active { color: gray; }
 
 main {
 	background: white;
 	overflow: hidden;
+	padding-top: 1.5em;
+	padding-bottom: 1.5em;
 }
 
 main .left {
@@ -43,6 +81,17 @@ main .right {
 	width: 285px;
 }
 
+main h2 { padding-bottom: 10px; }
+
+main h3 {
+	padding-top: 20px; 
+	padding-bottom: 10px;
+}
+
+main img {
+	width: 200px;
+}
+
 footer .left {
 	float: left;
 	width: 570px;
@@ -52,3 +101,29 @@ footer .sitemap {
 	float: right;
 	width: 285px;
 }
+
+footer h5 {
+	margin-top: .75em;
+	margin-bottom: .5em;
+}
+
+footer p {
+	margin-bottom: .1em;
+}
+
+.sitemap-left {
+	float: left;
+	width: 140px;
+}
+
+.sitemap-right {
+	float: left;
+	width: 140px;
+}
+
+.sitemap li { padding-bottom: .2em; }
+.sitemap a {
+	text-decoration: none;
+	color: black;
+}
+.sitemap a:active { color: gray; }
