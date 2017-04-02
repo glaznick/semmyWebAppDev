@@ -70,33 +70,58 @@ var main = function () {
   ];
 
   $(".tabs a span").toArray().forEach( function (element) {
-    $(element).on("click", function () {
-      var $element = $(element),
-      $content;
+    var $element = $(element);
+
+    $element.on("click", function () {
+      var $content,
+          $input,
+          $button;
+
       $(".tabs a span").removeClass("active");
       $element.addClass("active");
       $("main .content").empty();
+
       if ($element.parent().is(":nth-child(1)")) {
         $content = $("<ul>");
-        // toDos.forEach(function (todo) {
-        //   $content.prepand($("<li>").text(todo));
-        // });
+
+        // Variant with forEach() cicle
+        /*toDos.forEach(function (todo) {
+          $content.prepand($("<li>").text(todo));
+        });*/
+
+        // Variant with for() cicle
         for (var todo = toDos.length-1; todo>=0 ; todo--) {
           $content.append($("<li>").text(toDos[todo]));
         };
-        $("main .content").append($content);
+
+
       } else if ($element.parent().is(":nth-child(2)")) {
         $content = $("<ul>");
         toDos.forEach(function (todo) {
           $content.append($("<li>").text(todo));
         });
-        $("main .content").append($content);
+
       } else if ($element.parent().is(":nth-child(3)")) {
-        console.log("Third tab");
+        $input = $("<input type='text' placeholder='New comment'>"),
+        $button = $("<button>").text("+");
+
+        $button.on("click", function() {
+          if($input.val() !== "") {
+            toDos.push($input.val());
+            $input.val("");
+          }
+        });
+
+        $content = $("<div>").append($input, $button);
+        
       }
+
+      $("main .content").append($content);
+
       return false;
     });
   });
+
   $(".tabs a:first-child span").trigger("click");
 };
 

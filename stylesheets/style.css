@@ -141,6 +141,22 @@ main .content li:last-child {
 	margin-bottom: 0;
 }
 
+main .content input {
+	width: 300px;
+	padding: 5px;
+	margin: 10px 5px;
+	border-radius: 10px;
+	font-size: 100%;
+}
+
+main .content button {
+	padding: 5px 10px;
+	margin: 10px 5px;
+	border-radius: 10px;
+	font-size: 100%;
+	font-weight: bold;
+}
+
 footer .left {
 	float: left;
 	width: 570px;
