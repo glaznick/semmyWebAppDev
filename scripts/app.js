@@ -1,4 +1,4 @@
-// Variant 1
+// Variant 1 Make Tab active
 // var main = function () {
 //   "use strict";
 
@@ -29,7 +29,7 @@
 //   });
 // };
 
-// Variant 2
+// Variant 2 Make Tab active
 // var main = function () {
 //   "use strict";
 //   var tabNumber;
@@ -44,7 +44,7 @@
 //   }
 // };
 
-// Variant 3
+// Variant 3 Make Tab active
 // var main = function () {
 //   "use strict";
 //   $(".tabs a span").toArray().forEach( function (element) {
@@ -57,17 +57,63 @@
 //   });
 // };
 
+var toDoObjects = JSON.parse(
+  '[\
+    {\
+    "description" : "Купить продукты",\
+    "tags" : [ "шопинг", "рутина" ]\
+    },\
+    {\
+    "description" : "Сделать несколько новых задач",\
+    "tags" : [ "писательство", "работа" ]\
+    },\
+    {\
+    "description" : "Подготовиться к лекции в понедельник",\
+    "tags" : [ "работа", "преподавание" ]\
+    },\
+    {\
+    "description" : "Ответить на электронные письма",\
+    "tags" : [ "работа" ]\
+    },\
+    {\
+    "description" : "Вывести Грейси на прогулку в парк",\
+    "tags" : [ "рутина", "питомцы" ]\
+    },\
+    {\
+    "description" : "Закончить писать книгу",\
+    "tags" : [ "писательство", "работа" ]\
+    }\
+  ]');
+
+var organizeByTags = function (toDoObjects) {
+  var tags = [];
+
+  toDoObjects.forEach(function (toDo) {
+    toDo.tags.forEach(function (tag) {
+      if ( tags.indexOf(tag) === -1 ) {
+        tags.push(tag);
+      }
+    });
+  });
+  
+  var tagObjects = tags.map(function (tag) {
+    var toDoWithTag = [];
+    toDoObjects.forEach(function (toDo) {
+      if (toDo.tags.indexOf(tag) !== -1) {
+        toDoWithTag.push(toDo.description);
+      }
+    });
+    return { "name":tag, "toDos":toDoWithTag};
+  });
+  return tagObjects;
+};
+
 var main = function () {
   "use strict";
 
-  var toDos = [
-  "Закончить писать эту книгу",
-  "Вывести Грейси на прогулку в парк",
-  "Ответить на электронные письма",
-  "Подготовиться к лекции в понедельник",
-  "Обновить несколько новых задач",
-  "Купить продукты"
-  ];
+  var toDos = toDoObjects.map( function ( toDo ) {
+    return toDo.description
+  });
 
   $(".tabs a span").toArray().forEach( function (element) {
     var $element = $(element);
@@ -94,7 +140,6 @@ var main = function () {
           $content.append($("<li>").text(toDos[todo]));
         };
 
-
       } else if ($element.parent().is(":nth-child(2)")) {
         $content = $("<ul>");
         toDos.forEach(function (todo) {
@@ -102,18 +147,47 @@ var main = function () {
         });
 
       } else if ($element.parent().is(":nth-child(3)")) {
-        $input = $("<input type='text' placeholder='New comment'>"),
-        $button = $("<button>").text("+");
+        var organizedByTags = organizeByTags(toDoObjects).sort(function (a, b) {
+          if (a.name > b.name) return 1;
+          if (a.name < b.name) return -1;
+        });
+
+        organizedByTags.forEach(function (tag) {
+          var $tagName = $("<h3>").text(tag.name),
+              $content = $("<ul>");
+          tag.toDos.forEach(function (description) {
+            var $li = $("<li>").text(description);
+            $content.append($li);
+          });
+          $("main .content").append($tagName);
+          $("main .content").append($content);
+        });
+
+      } else if ($element.parent().is(":nth-child(4)")) {
+
+        var $input = $("<input>").addClass("description").attr("type","text").attr("placeholder","Новое задание"),
+          $inputLabel = $("<p>").text("Description: "),
+          $tagInput = $("<input>").addClass("tags").attr("placeholder","работа, шопинг, преподавание"),
+          $tagLabel = $("<p>").text("Tags: "),
+          $button = $("<button>").text("+");
 
         $button.on("click", function() {
           if($input.val() !== "") {
-            toDos.push($input.val());
+            var description = $input.val(),
+              tags = $tagInput.val().split(",");
+
+            toDoObjects.push({"description":description, "tags":tags});
+
+            toDos = toDoObjects.map(function (toDo) {
+              return toDo.description;
+            });
+
             $input.val("");
+            $tagInput.val("");
           }
         });
 
-        $content = $("<div>").append($input, $button);
-        
+        $content = $("<div>").append($inputLabel, $input, $tagLabel, $tagInput, $button);
       }
 
       $("main .content").append($content);
@@ -126,3 +200,24 @@ var main = function () {
 };
 
 $(document).ready(main);
+
+  /* // Вариант получения списка задач из файла
+  function () {
+    $.getJSON("todos.json", function (toDoObjects) {
+    // вызов функции main с аргументом в виде объекта toDoObjects
+    main(toDoObjects);
+  });
+  */
+  /* // Вариант прямого указания списка задач в тексте программы
+  function () {
+    var toDos = [
+    "Закончить писать эту книгу",
+    "Вывести Грейси на прогулку в парк",
+    "Ответить на электронные письма",
+    "Подготовиться к лекции в понедельник",
+    "Обновить несколько новых задач",
+    "Купить продукты"
+    ];
+    main(toDos);
+  }
+  */
